@@ -1,128 +1,49 @@
-<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <ProjectGuid>{2837EBA5-2F9A-4192-A2E7-95D41F6C478F}</ProjectGuid>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <TargetFramework>net8.0-windows</TargetFramework>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <OutputType>Library</OutputType>
-    <RootNamespace>EnvelopeBlock</RootNamespace>
     <AssemblyName>EnvelopeBlock.NET</AssemblyName>
-    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
-    <TargetFrameworkProfile>
-    </TargetFrameworkProfile>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
     <NoStdLib>False</NoStdLib>
-    <WarningLevel>4</WarningLevel>
-    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
-    <SourceAnalysisOverrideSettingsFile>C:\Users\ot\AppData\Roaming\ICSharpCode/SharpDevelop4\Settings.SourceAnalysis</SourceAnalysisOverrideSettingsFile>
-    <SignAssembly>False</SignAssembly>
-    <DelaySign>False</DelaySign>
     <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
-    <RunCodeAnalysis>False</RunCodeAnalysis>
-    <RunSourceAnalysis>False</RunSourceAnalysis>
     <StartArguments>/nocr</StartArguments>
     <StartWorkingDirectory>c:\buzz</StartWorkingDirectory>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <UseWPF>true</UseWPF>
+    <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Platform)' == 'x86' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <RegisterForComInterop>False</RegisterForComInterop>
     <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
     <BaseAddress>4194304</BaseAddress>
     <FileAlignment>4096</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>Full</DebugType>
-    <Optimize>False</Optimize>
     <CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
     <StartAction>Program</StartAction>
     <StartProgram>c:\buzz\buzz.exe</StartProgram>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
-    <DebugSymbols>false</DebugSymbols>
     <DebugType>None</DebugType>
-    <Optimize>True</Optimize>
-    <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
-    <DefineConstants>TRACE</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <OutputPath>bin\</OutputPath>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <OutputPath>bin\</OutputPath>
-    <Prefer32Bit>false</Prefer32Bit>
     <DefineConstants />
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="BuzzGUI.Common">
-      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Jeskola\Buzz\BuzzGUI.Common.dll</HintPath>
-      <Private>False</Private>
+      <HintPath>C:\Program Files\ReBuzz\BuzzGUI.Common.dll</HintPath>
     </Reference>
     <Reference Include="BuzzGUI.Interfaces">
-      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Jeskola\Buzz\BuzzGUI.Interfaces.dll</HintPath>
-      <Private>False</Private>
+      <HintPath>C:\Program Files\ReBuzz\BuzzGUI.Interfaces.dll</HintPath>
     </Reference>
     <Reference Include="ModernSequenceEditor.Interfaces">
-      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Jeskola\Buzz\ModernSequenceEditor.Interfaces.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="PresentationCore">
-      <RequiredTargetFramework>3.0</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="PresentationFramework">
-      <RequiredTargetFramework>3.0</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Core">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="System.Xaml">
-      <RequiredTargetFramework>4.0</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="System.Xml" />
-    <Reference Include="System.Xml.Linq">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="WindowsBase">
-      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+      <HintPath>C:\Program Files\ReBuzz\ModernSequenceEditor.Interfaces.dll</HintPath>
     </Reference>
   </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Actions\AddOrDeleteAction.cs" />
-    <Compile Include="EnvelopeBlock.cs" />
-    <Compile Include="EnvelopeBlockSettings.cs" />
-    <Compile Include="Envelopes\EnvelopeBase.cs" />
-    <Compile Include="Envelopes\EnvelopeBox.cs" />
-    <Compile Include="Envelopes\EnvelopeLayer.cs" />
-    <Compile Include="Envelopes\Envelopes.cs" />
-    <Compile Include="Envelopes\IEnvelopeLayer.cs" />
-    <Compile Include="SetValEditWindow.xaml.cs">
-      <DependentUpon>SetValEditWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="SplineCache.cs" />
-    <Compile Include="Spline\ArrayUtil.cs" />
-    <Compile Include="Spline\CubicSpline.cs" />
-    <Compile Include="Spline\TriDiagonalMatrix.cs" />
-    <Compile Include="Utils.cs" />
-    <Compile Include="EnvelopeCanvas.xaml.cs">
-      <DependentUpon>EnvelopeCanvas.xaml</DependentUpon>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Include="EnvelopeCanvas.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="SetValEditWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-  </ItemGroup>
-  <ItemGroup />
-  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.Targets" />
   <PropertyGroup>
     <PostBuildEvent>powershell -Command "Start-Process cmd -ArgumentList('/C', 'COPY /Y \"$(SolutionDir)EnvelopeBlock\bin\*\" \"C:\Program Files (x86)\Jeskola\Buzz\Gear\Generators\"')"  -Verb RunAs
 powershell -Command "Start-Process cmd -ArgumentList('/C', 'COPY /Y \"$(SolutionDir)EnvelopeBlock\bin\*\" \"C:\Program Files\Jeskola\Buzz\Gear\Generators\"')"  -Verb RunAs</PostBuildEvent>

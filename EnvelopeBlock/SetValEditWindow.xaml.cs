@@ -19,8 +19,8 @@ namespace EnvelopeBlock
         public SetValEditWindow(int val, int min, int max)
         {
             InitializeComponent();
-            textBox.KeyDown += new KeyEventHandler(textBox_KeyDown);
-            textBox.TextChanged += new TextChangedEventHandler(textBox_TextChanged);
+            textBox.KeyDown += textBox_KeyDown;
+            textBox.TextChanged += textBox_TextChanged;
 
             this.min = min;
             this.max = max;
@@ -42,9 +42,9 @@ namespace EnvelopeBlock
         void textBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             if (EnvelopeBlockMachine.Settings.NumeralSystem == DisplayValueTypes.Dec)
-                invalid = !Int32.TryParse(textBox.Text, out value) || value > max || value < min;
+                invalid = !int.TryParse(textBox.Text, out value) || value > max || value < min;
             else
-                invalid = !Int32.TryParse(textBox.Text, System.Globalization.NumberStyles.HexNumber, CultureInfo.CurrentCulture, out value) || value > max || value < min;
+                invalid = !int.TryParse(textBox.Text, NumberStyles.HexNumber, CultureInfo.CurrentCulture, out value) || value > max || value < min;
 
             textBox.Foreground = invalid ? Brushes.Red : Brushes.Black;
         }
@@ -53,15 +53,15 @@ namespace EnvelopeBlock
         {
             if (e.Key == Key.Escape)
             {
-                this.DialogResult = false;
-                this.Close();
+                DialogResult = false;
+                Close();
                 e.Handled = true;
             }
 
             if (e.Key == Key.Return && !invalid)
             {
-                this.DialogResult = true;
-                this.Close();
+                DialogResult = true;
+                Close();
                 e.Handled = true;
             }
         }

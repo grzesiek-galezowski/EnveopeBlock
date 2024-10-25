@@ -1,16 +1,17 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net8.0-windows</TargetFramework>
-    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <Platform Condition=" '$(Platform)' == '' ">x64</Platform>
     <OutputType>Library</OutputType>
     <AssemblyName>EnvelopeBlock.NET</AssemblyName>
     <NoStdLib>False</NoStdLib>
     <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
     <StartArguments>/nocr</StartArguments>
-    <StartWorkingDirectory>c:\buzz</StartWorkingDirectory>
+    <StartWorkingDirectory>C:\Program Files\ReBuzz</StartWorkingDirectory>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <UseWPF>true</UseWPF>
     <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
+    <Platforms>AnyCPU;x86;x64</Platforms>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Platform)' == 'x86' ">
     <RegisterForComInterop>False</RegisterForComInterop>
@@ -21,17 +22,10 @@
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
     <StartAction>Program</StartAction>
-    <StartProgram>c:\buzz\buzz.exe</StartProgram>
+    <StartProgram>C:\Program Files\ReBuzz\ReBuzz.exe</StartProgram>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <DebugType>None</DebugType>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
-    <OutputPath>bin\</OutputPath>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
-    <OutputPath>bin\</OutputPath>
-    <DefineConstants />
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="BuzzGUI.Common">
@@ -45,7 +39,6 @@
     </Reference>
   </ItemGroup>
   <PropertyGroup>
-    <PostBuildEvent>powershell -Command "Start-Process cmd -ArgumentList('/C', 'COPY /Y \"$(SolutionDir)EnvelopeBlock\bin\*\" \"C:\Program Files (x86)\Jeskola\Buzz\Gear\Generators\"')"  -Verb RunAs
-powershell -Command "Start-Process cmd -ArgumentList('/C', 'COPY /Y \"$(SolutionDir)EnvelopeBlock\bin\*\" \"C:\Program Files\Jeskola\Buzz\Gear\Generators\"')"  -Verb RunAs</PostBuildEvent>
+    <PostBuildEvent>powershell -Command "Start-Process cmd -ArgumentList('/C', 'COPY /Y \"$(SolutionDir)EnvelopeBlock\bin\$(Platform)\$(Configuration)\net8.0-windows\*\" \"C:\Program Files\ReBuzz\Gear\Generators\"')"  -Verb RunAs</PostBuildEvent>
   </PropertyGroup>
 </Project>

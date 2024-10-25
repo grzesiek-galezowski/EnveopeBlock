@@ -51,7 +51,7 @@ namespace EnvelopeBlock
         public EnvelopeBase()
         {
             envelopeBoxes = new List<EnvelopeBox>();
-            this.SnapsToDevicePixels = true;
+            SnapsToDevicePixels = true;
 
             foreach (var b in brushes)
                 if (b.CanFreeze) b.Freeze();
@@ -187,12 +187,12 @@ namespace EnvelopeBlock
             if (envelopeBoxIndex > 0)
             {
                 EnvelopeBox eb = envelopeBoxes[envelopeBoxIndex - 1];
-                prevBoxXPos = Canvas.GetLeft(eb) + eb.Width / 2.0;
+                prevBoxXPos = GetLeft(eb) + eb.Width / 2.0;
             }
             if (envelopeBoxIndex < envelopeBoxes.Count - 1)
             {
                 EnvelopeBox eb = envelopeBoxes[envelopeBoxIndex + 1];
-                nextBoxXPos = Canvas.GetLeft(eb) + eb.Width / 2.0;
+                nextBoxXPos = GetLeft(eb) + eb.Width / 2.0;
             }
 
             if (!(Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl)))
@@ -379,7 +379,7 @@ namespace EnvelopeBlock
             SetEnvelopeValue(envelopeBox, DefaulBoxValue());
             int envelopeBoxIndex = envelopeBoxes.IndexOf(envelopeBox);
 
-            Canvas.SetLeft(envelopeBox, ValueToScreen(GetEnvelopeValue(envelopeBox)) - envelopeBox.Width / 2.0);
+            SetLeft(envelopeBox, ValueToScreen(GetEnvelopeValue(envelopeBox)) - envelopeBox.Width / 2.0);
             Point point = envPolyLine.Points[envelopeBoxIndex];
             point.X = ValueToScreen(GetEnvelopeValue(envelopeBox));
             envPolyLine.Points[envelopeBoxIndex] = point;

@@ -41,12 +41,12 @@ namespace EnvelopeBlock
 
         public static void DrawBox(Canvas canvas)
         {
-            Brush myBrush = new SolidColorBrush(Utils.ChangeColorBrightness(Global.Buzz.ThemeColors["SE Pattern Box"], -0.4f));
+            Brush myBrush = new SolidColorBrush(ChangeColorBrightness(Global.Buzz.ThemeColors["SE Pattern Box"], -0.4f));
 
             DrawLine(canvas, canvas.Width, 0, canvas.Width, canvas.Height, myBrush, 1);
             DrawLine(canvas, canvas.Width, canvas.Height, 0, canvas.Height, myBrush, 1);
 
-            myBrush = new SolidColorBrush(Utils.ChangeColorBrightness(Global.Buzz.ThemeColors["SE Pattern Box"], 0.4f));
+            myBrush = new SolidColorBrush(ChangeColorBrightness(Global.Buzz.ThemeColors["SE Pattern Box"], 0.4f));
 
             DrawLine(canvas, 0, canvas.Height - 1, 0, 0, myBrush, 2);
             DrawLine(canvas, 0, 0, canvas.Width - 1, 0, myBrush, 2);

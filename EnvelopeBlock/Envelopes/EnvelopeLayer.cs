@@ -72,7 +72,7 @@ namespace EnvelopeBlock
                     return;
 
                 if(envelopesCanvas.HostCanvas.ContextMenu != null)
-                    evbSender.ContextMenu.Resources.MergedDictionaries.Add(this.envelopesCanvas.HostCanvas.ContextMenu.Resources);
+                    evbSender.ContextMenu.Resources.MergedDictionaries.Add(envelopesCanvas.HostCanvas.ContextMenu.Resources);
 
                 // Update EnvelopeLayer List
                 int indexAdded = AddEnvelopeBoxToList(evbSender, evbSender.TimeStamp);
@@ -80,7 +80,7 @@ namespace EnvelopeBlock
                 // Update Visual
                 AddEnvelopeBoxToCanvas(evbSender, indexAdded);
                 evbSender.MouseLeftButtonDown += Evb_MouseLeftButtonDown;
-                evbSender.Freezed = false;
+                evbSender.Frozen = false;
                 //UpdateToolTip(evbSender);
                 UpdatePolyLinePath();
             }
@@ -97,7 +97,7 @@ namespace EnvelopeBlock
                 EnvelopeBox ebThis = envelopeBoxes[envelopeBoxIndex];
                 ebThis.MouseLeftButtonDown -= Evb_MouseLeftButtonDown;
                 envelopeBoxes.Remove(ebThis);
-                this.Children.Remove(ebThis);
+                Children.Remove(ebThis);
 
                 UpdatePolyLinePath();
             }
@@ -136,11 +136,11 @@ namespace EnvelopeBlock
 
             if (point.Y < evb.Height / 2.0 && point.Y >= 0)
                 point.Y = evb.Height / 2.0;
-            else if (point.Y > (int)(this.Height - evb.Height / 2.0) && (int)point.Y <= this.Height)
-                point.Y = this.Height - evb.Height / 2.0;
+            else if (point.Y > (int)(Height - evb.Height / 2.0) && (int)point.Y <= Height)
+                point.Y = Height - evb.Height / 2.0;
 
-            Canvas.SetLeft(evb, point.X - evb.Width / 2.0);
-            Canvas.SetTop(evb, point.Y - evb.Height / 2.0);
+            SetLeft(evb, point.X - evb.Width / 2.0);
+            SetTop(evb, point.Y - evb.Height / 2.0);
 
             string desc;
             int paramValue;
@@ -158,10 +158,10 @@ namespace EnvelopeBlock
 
         public override void Draw()
         {
-            this.Children.Clear();
+            Children.Clear();
             envelopeBoxes.Clear();
-            this.Children.Add(envPolyLine);
-            this.ClipToBounds = true;
+            Children.Add(envPolyLine);
+            ClipToBounds = true;
 
             int counter = 0;
             var envelopePoints = envelopeBlockMachine.MachineState.Patterns[EnvelopePatternIndex].Envelopes[envelopeParamIndex].EnvelopePoints;
@@ -172,19 +172,19 @@ namespace EnvelopeBlock
                 envelopeBoxes.Add(env);
                 env.MouseLeftButtonDown += Evb_MouseLeftButtonDown;
                 if(envelopesCanvas.HostCanvas.ContextMenu != null)
-                    env.ContextMenu.Resources.MergedDictionaries.Add(this.envelopesCanvas.HostCanvas.ContextMenu.Resources);
-                env.Freezed = pep.Freezed;
+                    env.ContextMenu.Resources.MergedDictionaries.Add(envelopesCanvas.HostCanvas.ContextMenu.Resources);
+                env.Frozen = pep.Freezed;
 
                 Point point = new Point(ValueToScreen(pep.Value), ConvertTimeStampInSecondsToPixels(pep.TimeStamp));
                 point = UpdateEnvelopeBoxCenterPosition(env, point, false);
 
                 if (point.Y < env.Height / 2.0 && point.Y >= 0)
                     point.Y = env.Height / 2.0;
-                else if (point.Y >= this.Height - env.Height / 2.0 && (int)point.Y <= this.Height)
-                    point.Y = this.Height - env.Height / 2.0;
+                else if (point.Y >= Height - env.Height / 2.0 && (int)point.Y <= Height)
+                    point.Y = Height - env.Height / 2.0;
 
-                Canvas.SetLeft(env, point.X - env.Width / 2.0);
-                Canvas.SetTop(env, point.Y - env.Height / 2.0);
+                SetLeft(env, point.X - env.Width / 2.0);
+                SetTop(env, point.Y - env.Height / 2.0);
 
                 string desc;
                 int paramValue;
@@ -193,7 +193,7 @@ namespace EnvelopeBlock
                 string paramValueStr = EnvelopeBlockMachine.Settings.NumeralSystem == DisplayValueTypes.Dec ? "" + paramValue : "" + paramValue.ToString("X");
                 env.ToolTip = string.Format("Time: {0:0.0}, " + desc + ": {1:0}", pep.TimeStamp, paramValueStr);
 
-                this.Children.Add(env);
+                Children.Add(env);
 
                 counter++;
                 Thread.Sleep(0);
@@ -246,7 +246,7 @@ namespace EnvelopeBlock
                 for (int i = 0; i < spline.YValues.Length; i++)
                 {
                     double y = realHeight * (((double)i * spline.StepSizeInSeconds) / DrawLengthInSeconds);
-                    double x = this.Width * ((spline.YValues[i] / MaxBoxValue()) * ENVELOPE_VIEW_SCALE_ADJUST + ((1.0 - ENVELOPE_VIEW_SCALE_ADJUST) / 2.0));
+                    double x = Width * ((spline.YValues[i] / MaxBoxValue()) * ENVELOPE_VIEW_SCALE_ADJUST + ((1.0 - ENVELOPE_VIEW_SCALE_ADJUST) / 2.0));
                     Point polyPoint = new Point(x, y);
                     envPolyLine.Points.Add(polyPoint);
                     Thread.Sleep(0); // Not sure if these help at all...
@@ -344,8 +344,8 @@ namespace EnvelopeBlock
 
             
 
-            this.Loaded += EnvelopeLayer_Loaded;
-            this.Unloaded += EnvelopeLayer_Unloaded;
+            Loaded += EnvelopeLayer_Loaded;
+            Unloaded += EnvelopeLayer_Unloaded;
 
             envPolyLine.MouseEnter += (sender, e) =>
             {
@@ -411,7 +411,7 @@ namespace EnvelopeBlock
             if (boxDragged)
             {
                 envelopesCanvas.HostCanvas.ReleaseMouseCapture();
-                this.boxDragged = false;
+                boxDragged = false;
                 e.Handled = true;
             }
         }
@@ -430,8 +430,8 @@ namespace EnvelopeBlock
 
         private void EnvelopesCanvas_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            this.Width = ((Canvas)sender).Width;
-            this.Height = ((Canvas)sender).Height;
+            Width = ((Canvas)sender).Width;
+            Height = ((Canvas)sender).Height;
             Draw();
         }
 
@@ -453,10 +453,10 @@ namespace EnvelopeBlock
             e.Handled = true;
         }
 
-        private void Evb_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private void Evb_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             envelopesCanvas.SelectEnvelope(this);
-            if ((Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightShift)) && !((EnvelopeBox)sender).Freezed)
+            if ((Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightShift)) && !((EnvelopeBox)sender).Frozen)
             {
                 // Delete always
                 //if (envelopesCanvas.IsSelectedLayer(this))
@@ -472,11 +472,11 @@ namespace EnvelopeBlock
             else
             {
                 Mouse.Capture(envelopesCanvas.HostCanvas);
-                this.boxDragged = true;
+                boxDragged = true;
                 boxDraggedIndex = envelopeBoxes.IndexOf((EnvelopeBox)sender);
                 var ebox = (EnvelopeBox)sender;
-                this.draggedBoxPreviousXPos = Canvas.GetLeft(ebox);
-                this.draggedBoxPreviousYPos = Canvas.GetTop(ebox);
+                draggedBoxPreviousXPos = GetLeft(ebox);
+                draggedBoxPreviousYPos = GetTop(ebox);
 
                 ebox.DraggedEnvIndex = boxDraggedIndex;
                 ebox.EnvelopePatternIndex = envelopePatternIndex;
@@ -485,14 +485,14 @@ namespace EnvelopeBlock
             }
         }
 
-        private void C_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
+        private void C_MouseMove(object sender, MouseEventArgs e)
         {
             newBoxPosition = e.GetPosition(envelopesCanvas.HostCanvas);
             if (envelopesCanvas.IsVisible && boxDragged)
             {
                 EnvelopeBox evb = envelopeBoxes[boxDraggedIndex];
 
-                if (!evb.Freezed && (e.LeftButton == System.Windows.Input.MouseButtonState.Pressed))
+                if (!evb.Frozen && (e.LeftButton == MouseButtonState.Pressed))
                 {
                     Point point = e.GetPosition(envelopesCanvas.HostCanvas);
 
@@ -524,11 +524,11 @@ namespace EnvelopeBlock
                 envelopeVisible = value;
                 if (envelopeVisible)
                 {
-                    this.Visibility = Visibility.Visible;
+                    Visibility = Visibility.Visible;
                     envelopesCanvas.MouseRightButtonDown += HostCanvas_MouseRightButtonDown;
                 }
                 else
-                    this.Visibility = Visibility.Hidden;
+                    Visibility = Visibility.Hidden;
             }
         }
 
@@ -856,10 +856,10 @@ namespace EnvelopeBlock
         private void Mi_Click_Reset(object sender, RoutedEventArgs e)
         {
             envelopeBlockMachine.ResetEnvPoints(envelopePatternIndex, envelopeParamIndex);
-            this.LoadData();
+            LoadData();
             if (envelopeBlockMachine.MachineState.Patterns[envelopePatternIndex].Envelopes[envelopeParamIndex].EnvelopeCurves)
                 envelopeBlockMachine.UpdateSpline(envelopePatternIndex, envelopeParamIndex);
-            this.Draw();
+            Draw();
             envelopeBlockMachine.RaisePropertyReDraw(this);
             envelopeBlockMachine.NotifyBuzzDataChanged();
         }
@@ -931,8 +931,8 @@ namespace EnvelopeBlock
             pos.Y = SnapToY(pos.Y, double.MinValue);
 
             pos = UpdateEnvelopeBoxCenterPosition(evb, pos, true);
-            Canvas.SetLeft(evb, pos.X - evb.Width / 2.0);
-            Canvas.SetTop(evb, pos.Y - evb.Height / 2.0);
+            SetLeft(evb, pos.X - evb.Width / 2.0);
+            SetTop(evb, pos.Y - evb.Height / 2.0);
 
             // Update time stamp
             double timeStamp = ConvertPixelToTimeStampInSeconds(pos);
@@ -955,10 +955,10 @@ namespace EnvelopeBlock
         private void AddEnvelopeBoxToCanvas(EnvelopeBox evb, int index)
         {
             Point pos = new Point();
-            pos.X = Canvas.GetLeft(evb) + evb.Width / 2.0;
-            pos.Y = Canvas.GetTop(evb) + evb.Height / 2.0;
+            pos.X = GetLeft(evb) + evb.Width / 2.0;
+            pos.Y = GetTop(evb) + evb.Height / 2.0;
 
-            this.Children.Add(evb);
+            Children.Add(evb);
             envPolyLine.Points.Insert(index, pos);
         }
 

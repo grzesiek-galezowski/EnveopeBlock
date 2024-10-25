@@ -13,13 +13,13 @@ namespace EnvelopeBlock
         private double drawLengthInSeconds;
         public Envelopes(EnvelopeBlockMachine ebm, EnvelopeCanvas parentCanvas)
         {
-            this.envelopeBlockMachine = ebm;
+            envelopeBlockMachine = ebm;
 
-            this.Width = parentCanvas.Width;
-            this.Height = parentCanvas.Height;
+            Width = parentCanvas.Width;
+            Height = parentCanvas.Height;
 
-            Canvas.SetLeft(this, 0);
-            Canvas.SetTop(this, 0);
+            SetLeft(this, 0);
+            SetTop(this, 0);
 
             HostCanvas = parentCanvas;
 
@@ -27,9 +27,9 @@ namespace EnvelopeBlock
             for (int i = 0; i < EnvelopeBlockMachine.MAX_ENVELOPE_BOX_PARAMS; i++)
             {
                 EnvelopeLayer el = new EnvelopeLayer();
-                el.DrawLengthInSeconds = this.DrawLengthInSeconds;
+                el.DrawLengthInSeconds = DrawLengthInSeconds;
                 el.Init(envelopeBlockMachine, this, i);
-                this.Children.Add(el);
+                Children.Add(el);
 
                 parentCanvas.ContextMenu.Items.Insert(i, el.CreateEnvelopeMenu());
                 System.Threading.Thread.Sleep(0);
@@ -60,8 +60,8 @@ namespace EnvelopeBlock
 
         private void ParentCanvas_SizeChanged(object sender, System.Windows.SizeChangedEventArgs e)
         {
-            this.Width = ((Canvas)sender).Width;
-            this.Height = ((Canvas)sender).Height;
+            Width = ((Canvas)sender).Width;
+            Height = ((Canvas)sender).Height;
             foreach (EnvelopeLayer el in Children)
             {
                 el.Height = Height;
@@ -109,7 +109,7 @@ namespace EnvelopeBlock
 
         internal void SelectEnvelope(EnvelopeLayer envelopeLayer)
         {
-            this.SelectedEnvelopeLayer = envelopeLayer;
+            SelectedEnvelopeLayer = envelopeLayer;
         }
 
         internal bool IsSelectedLayer(EnvelopeLayer envelopeLayer)

@@ -126,9 +126,9 @@ namespace TestMySpline
         /// </summary>
         public TriDiagonalMatrixF(int n)
         {
-            this.A = new float[n];
-            this.B = new float[n];
-            this.C = new float[n];
+            A = new float[n];
+            B = new float[n];
+            C = new float[n];
         }
 
         /// <summary>
@@ -138,7 +138,7 @@ namespace TestMySpline
         /// <param name="prefix">Optional. Per-line indentation prefix.</param>
         public string ToDisplayString(string fmt = "", string prefix = "")
         {
-            if (this.N > 0)
+            if (N > 0)
             {
                 var s = new StringBuilder();
                 string formatString = "{0" + fmt + "}";
@@ -174,7 +174,7 @@ namespace TestMySpline
         /// <param name="d">Right side of the equation.</param>
         public float[] Solve(float[] d)
         {
-            int n = this.N;
+            int n = N;
 
             if (d.Length != n)
             {

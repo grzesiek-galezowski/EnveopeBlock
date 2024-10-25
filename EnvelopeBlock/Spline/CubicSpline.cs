@@ -167,14 +167,14 @@ namespace TestMySpline
         /// <param name="debug">Turn on console output. Default is false.</param>
         public void Fit(float[] x, float[] y, float startSlope = float.NaN, float endSlope = float.NaN, bool debug = false)
         {
-            if (Single.IsInfinity(startSlope) || Single.IsInfinity(endSlope))
+            if (float.IsInfinity(startSlope) || float.IsInfinity(endSlope))
             {
                 throw new Exception("startSlope and endSlope cannot be infinity.");
             }
 
             // Save x and y for eval
-            this.xOrig = x;
-            this.yOrig = y;
+            xOrig = x;
+            yOrig = y;
 
             int n = x.Length;
             float[] r = new float[n]; // the right hand side numbers: wikipedia page overloads b
@@ -234,8 +234,8 @@ namespace TestMySpline
             if (debug) Console.WriteLine("k = {0}", ArrayUtil.ToString<float>(k));
 
             // a and b are each spline's coefficients
-            this.a = new float[n - 1];
-            this.b = new float[n - 1];
+            a = new float[n - 1];
+            b = new float[n - 1];
 
             for (int i = 1; i < n; i++)
             {
@@ -358,7 +358,7 @@ namespace TestMySpline
         /// not need to be normalized. If either is NaN then neither is used.</param>
         /// <param name="lastDy">See description of dxN.</param>
         public static void FitParametric(float[] x, float[] y, int nOutputPoints, out float[] xs, out float[] ys,
-            float firstDx = Single.NaN, float firstDy = Single.NaN, float lastDx = Single.NaN, float lastDy = Single.NaN)
+            float firstDx = float.NaN, float firstDy = float.NaN, float lastDx = float.NaN, float lastDy = float.NaN)
         {
             // Compute distances
             int n = x.Length;
@@ -399,11 +399,11 @@ namespace TestMySpline
 
         private static void NormalizeVector(ref float dx, ref float dy)
         {
-            if (!Single.IsNaN(dx) && !Single.IsNaN(dy))
+            if (!float.IsNaN(dx) && !float.IsNaN(dy))
             {
                 float d = (float)Math.Sqrt(dx * dx + dy * dy);
 
-                if (d > Single.Epsilon) // probably not conservative enough, but catches the (0,0) case at least
+                if (d > float.Epsilon) // probably not conservative enough, but catches the (0,0) case at least
                 {
                     dx = dx / d;
                     dy = dy / d;
@@ -416,7 +416,7 @@ namespace TestMySpline
             else
             {
                 // In case one is NaN and not the other
-                dx = dy = Single.NaN;
+                dx = dy = float.NaN;
             }
         }
 

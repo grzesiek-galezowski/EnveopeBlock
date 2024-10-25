@@ -13,22 +13,22 @@ namespace EnvelopeBlock
         private Rectangle rect;
 
         // Seconds from beginning from pattern
-        private bool freezed;
+        private bool frozen;
         MenuItem miFreeze;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public bool Freezed
+        public bool Frozen
         {
-            get { return freezed; }
+            get { return frozen; }
             set
             {
-                freezed = value;
+                frozen = value;
                 DisableEnvets();
-                MiFreeze.IsChecked = freezed;
-                foreach (MenuItem mi in this.ContextMenu.Items)
+                MiFreeze.IsChecked = frozen;
+                foreach (MenuItem mi in ContextMenu.Items)
                     if (mi != MiFreeze)
-                        mi.IsEnabled = !freezed;
+                        mi.IsEnabled = !frozen;
                 EnableEvents();
             }
         }
@@ -42,10 +42,10 @@ namespace EnvelopeBlock
 
         public EnvelopeBox(IEnvelopeLayer enveloperL, double width, double height, Brush fill, Brush stroke)
         {
-            this.Width = width;
-            this.Height = height;
+            Width = width;
+            Height = height;
 
-            this.EnveloperLayer = enveloperL;
+            EnveloperLayer = enveloperL;
 
             rect = new Rectangle();
             rect.Width = width;
@@ -53,14 +53,14 @@ namespace EnvelopeBlock
             rect.Fill = fill;
             rect.Stroke = stroke;
 
-            Canvas.SetLeft(rect, 0);
-            Canvas.SetTop(rect, 0);
-            this.Children.Add(rect);
+            SetLeft(rect, 0);
+            SetTop(rect, 0);
+            Children.Add(rect);
 
             ContextMenu contextMenu = new ContextMenu() { Margin = new Thickness(4, 4, 4, 4) };
 
             MiFreeze = new MenuItem();
-            MiFreeze.Header = "Freezed";
+            MiFreeze.Header = "Frozen";
             MiFreeze.IsCheckable = true;
 
             contextMenu.Items.Add(MiFreeze);
@@ -80,18 +80,18 @@ namespace EnvelopeBlock
             mi.Click += Mi_Click_Delete;
             contextMenu.Items.Add(mi);
 
-            this.CacheMode = new BitmapCache() { EnableClearType = false, SnapsToDevicePixels = false, RenderAtScale = 1 };
+            CacheMode = new BitmapCache() { EnableClearType = false, SnapsToDevicePixels = false, RenderAtScale = 1 };
 
-            this.ContextMenu = contextMenu;
-            freezed = true;
+            ContextMenu = contextMenu;
+            frozen = true;
 
-            this.MouseRightButtonDown += EnvelopeBox_MouseRightButtonDown;
+            MouseRightButtonDown += EnvelopeBox_MouseRightButtonDown;
             EnableEvents();
 
             MouseEnter += EnvelopeBox_MouseEnter;
             MouseLeave += EnvelopeBox_MouseLeave;
 
-            this.Unloaded += (sender, e) =>
+            Unloaded += (sender, e) =>
             {
                 MouseEnter -= EnvelopeBox_MouseEnter;
                 MouseLeave -= EnvelopeBox_MouseLeave;
@@ -99,7 +99,7 @@ namespace EnvelopeBlock
                 EnveloperLayer = null;
             };
 
-            this.ToolTipOpening += (sender, e) =>
+            ToolTipOpening += (sender, e) =>
             {
                 EnvelopeLayer el = (EnvelopeLayer)EnveloperLayer;
                 el.UpdateToolTip(this);
@@ -108,19 +108,19 @@ namespace EnvelopeBlock
 
         private void EnvelopeBox_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e)
         {
-            this.EnveloperLayer.EnvelopeBoxMouseLeave();
+            EnveloperLayer.EnvelopeBoxMouseLeave();
         }
 
         private void EnvelopeBox_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
         {
-            this.EnveloperLayer.EnvelopeBoxMouseEnter();
+            EnveloperLayer.EnvelopeBoxMouseEnter();
         }
 
         private void Mi_Click_SetValue(object sender, RoutedEventArgs e)
         {
-            if (!Freezed)
+            if (!Frozen)
             {
-                this.EnveloperLayer.SetEnvelopeBoxValue(this);
+                EnveloperLayer.SetEnvelopeBoxValue(this);
             }
         }
 
@@ -130,12 +130,12 @@ namespace EnvelopeBlock
             evb.DraggedEnvIndex = DraggedEnvIndex;
             evb.EnvelopePatternIndex = EnvelopePatternIndex;
             evb.EnvelopeParamIndex = EnvelopeParamIndex;
-            evb.Freezed = Freezed;
+            evb.Frozen = Frozen;
             evb.Index = Index;
             evb.TimeStamp = TimeStamp;
 
-            Canvas.SetLeft(evb, Canvas.GetLeft(this));
-            Canvas.SetTop(evb, Canvas.GetTop(this));
+            SetLeft(evb, GetLeft(this));
+            SetTop(evb, GetTop(this));
 
             return evb;
         }
@@ -154,32 +154,32 @@ namespace EnvelopeBlock
 
         private void EnvelopeBox_MouseRightButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            if (this.ContextMenu != null)
-                this.ContextMenu.IsOpen = true;
+            if (ContextMenu != null)
+                ContextMenu.IsOpen = true;
 
             e.Handled = true;
         }
 
         private void Mi_Click_Reset(object sender, RoutedEventArgs e)
         {
-            if (!Freezed)
-                this.EnveloperLayer.ResetEnvelopeBox(this);
+            if (!Frozen)
+                EnveloperLayer.ResetEnvelopeBox(this);
         }
 
         private void Mi_Click_Delete(object sender, RoutedEventArgs e)
         {
-            if (!Freezed)
-                this.EnveloperLayer.DeleteEnvelopeBox(this);
+            if (!Frozen)
+                EnveloperLayer.DeleteEnvelopeBox(this);
         }
 
         private void Mi_Unchecked(object sender, RoutedEventArgs e)
         {
-            this.EnveloperLayer.SetFreezed(this, false);
+            EnveloperLayer.SetFreezed(this, false);
         }
 
         private void Mi_Checked(object sender, RoutedEventArgs e)
         {
-            this.EnveloperLayer.SetFreezed(this, true);
+            EnveloperLayer.SetFreezed(this, true);
         }
 
         protected override void OnRender(DrawingContext dc)

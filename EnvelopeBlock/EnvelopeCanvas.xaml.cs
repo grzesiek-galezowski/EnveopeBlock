@@ -69,22 +69,22 @@ namespace EnvelopeBlock
 
             DrawBackground = true;
 
-            this.EnvelopeBlockMachine = envelopeBlockMachine;
-            this.EnvelopePatternIndex = envelopePatternIndex;
+            EnvelopeBlockMachine = envelopeBlockMachine;
+            EnvelopePatternIndex = envelopePatternIndex;
 
             EnvelopeBlockMachine.PropertyChanged += EnvelopeBlockMachine_PropertyChanged;
 
             //backgroundWaveCanvas = new Canvas() { SnapsToDevicePixels = true };
-            this.SnapsToDevicePixels = true;
+            SnapsToDevicePixels = true;
 
-            this.Background = Utils.CreateLGBackgroundBrush(true);
-            this.Background.Opacity = 0;
+            Background = Utils.CreateLGBackgroundBrush(true);
+            Background.Opacity = 0;
 
-            this.Loaded += WaveCanvas_Loaded;
-            this.Unloaded += WaveCanvas_Unloaded;
+            Loaded += WaveCanvas_Loaded;
+            Unloaded += WaveCanvas_Unloaded;
 
             ContextMenu cmCanvas = new ContextMenu() { Margin = new Thickness(4, 4, 4, 4) };
-            this.ContextMenu = cmCanvas;
+            ContextMenu = cmCanvas;
 
             CreateMenuItems();
             Thread.Sleep(0); // Necessary?
@@ -111,7 +111,7 @@ namespace EnvelopeBlock
             if ((e.PropertyName == "BPM" || e.PropertyName == "TPB"))
             {
                 if (Global.Buzz.Playing || Global.Buzz.Recording)
-                    this.ReDrawAfterStopped = true;
+                    ReDrawAfterStopped = true;
                 else
                 {
                     ReDrawAfterStopped = false;
@@ -186,7 +186,7 @@ namespace EnvelopeBlock
 
             miSeparator = new Separator();
 
-            ContextMenu cmCanvas = this.ContextMenu;
+            ContextMenu cmCanvas = ContextMenu;
 
             cmCanvas.Items.Add(miSeparator);
             cmCanvas.Items.Add(menuItemShowAll);
@@ -275,7 +275,7 @@ namespace EnvelopeBlock
             //cmCanvas.Items.Add(menuItemDisable);
             menuItemDisable.IsChecked = EnvelopeBlockMachine.MachineState.Patterns[EnvelopePatternIndex].PatternDisabled;
 
-            if (this.envelopes != null)
+            if (envelopes != null)
                 envelopes.UpdateMenus();
         }
 
@@ -338,30 +338,30 @@ namespace EnvelopeBlock
             EnvelopeBlockMachine.RaisePropertyUpdateMenu(this);
         }
 
-        private void EnvelopeBlockMachine_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        private void EnvelopeBlockMachine_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == "UpdateMenu")
             {
                 EnvelopeCanvas ec = (EnvelopeCanvas)sender;
-                if (this.envelopPatternIndex != ec.envelopPatternIndex)
+                if (envelopPatternIndex != ec.envelopPatternIndex)
                     return;
 
                 DisableEvents();
                 UpdateMenus();
-                this.ContextMenu.IsOpen = false;
+                ContextMenu.IsOpen = false;
                 EnableEvents();
             }
             else if (e.PropertyName == "UpdateAllMenus")
             {
                 DisableEvents();
                 UpdateMenus();
-                this.ContextMenu.IsOpen = false;
+                ContextMenu.IsOpen = false;
                 EnableEvents();
             }
             else if (e.PropertyName == "ReDrawCanvas")
             {
                 EnvelopeBlockEvent ec = (EnvelopeBlockEvent)sender;
-                if (this.envelopPatternIndex != ec.envelopPatternIndex)
+                if (envelopPatternIndex != ec.envelopPatternIndex)
                     return;
 
                 string patternName = EnvelopeBlockMachine.MachineState.Patterns[envelopPatternIndex].Pattern;
@@ -490,7 +490,7 @@ namespace EnvelopeBlock
 
             //taskList.Add(Task.Factory.StartNew(() =>
             //{
-            this.Children.Clear();
+            Children.Clear();
 
             DrawVertical(this);
             //Thread.Sleep(0);
@@ -501,7 +501,7 @@ namespace EnvelopeBlock
             //Thread.Sleep(0);
             //Utils.DrawText(this, EnvelopeBlockMachine.MachineState.AudioBlockInfoTable[EnvelopePatternIndex].Pattern);
 
-            this.Children.Add(envelopes);
+            Children.Add(envelopes);
             envelopes.Draw();
 
             //Thread.Sleep(0);
